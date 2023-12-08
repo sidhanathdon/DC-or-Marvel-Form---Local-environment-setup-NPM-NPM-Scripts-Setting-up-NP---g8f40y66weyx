@@ -2,13 +2,28 @@
 import { useState } from 'react';
 
 function FormA({ onSubmit, age }) {
-  const handleSubmit = (event) => {};
+  const [dcShow, setDcShow] = useState('');
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    // Check if both age and dcShow are provided
+    if (age && dcShow) {
+      onSubmit({
+        formType: 'Form A',
+        age: age,
+        dcShow: dcShow,
+        marvelShow: '', // Since this is Form A, Marvel show is not selected
+      });
+    }
+  };
+
   return (
     <form id='dc' onSubmit={handleSubmit}>
       <h2>Form A</h2>
       <label>
         Select DC Shows:
-        <select>
+        <select value={dcShow} onChange={(e) => setDcShow(e.target.value)}>
           <option value=''>--Select--</option>
           <option value='The Flash'>The Flash</option>
           <option value='Arrow'>Arrow</option>
@@ -19,7 +34,12 @@ function FormA({ onSubmit, age }) {
       <br />
       <label>
         Enter your age:
-        <input type='number' value={age} disabled />
+        <input
+          type='number'
+          value={age}
+          onChange={(e) => setAge(e.target.value)}
+          disabled
+        />
       </label>
       <br />
       <button id='submit-dc' type='submit'>
@@ -27,5 +47,5 @@ function FormA({ onSubmit, age }) {
       </button>
     </form>
   );
-}
+};
 export default FormA;
